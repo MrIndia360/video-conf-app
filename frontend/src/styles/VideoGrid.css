@@ -2,6 +2,52 @@
   width: 100%;
   height: 100%;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* -----------------------------------------------
+   Multiple screen share tabs
+----------------------------------------------- */
+.share-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.share-tabs::-webkit-scrollbar { height: 3px; }
+.share-tabs::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.share-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.share-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.share-tab--active {
+  background: rgba(102, 126, 234, 0.25);
+  border-color: rgba(102, 126, 234, 0.5);
+  color: #a5b4fc;
 }
 
 .video-grid {
@@ -25,4 +71,87 @@
   font-size: 13px !important;
   font-weight: 500 !important;
   background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
+}
+
+/* -----------------------------------------------
+   Screen share banner
+----------------------------------------------- */
+.screen-share-banner {
+  background: rgba(102, 126, 234, 0.15);
+  border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  padding: 8px 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.screen-share-banner strong { color: #a5b4fc; }
+
+/* -----------------------------------------------
+   Featured layout (screen share active)
+----------------------------------------------- */
+.video-grid-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-layout {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+/* Large screen share area */
+.featured-main {
+  flex: 1;
+  position: relative;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.featured-screen {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.featured-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* Camera thumbnails strip */
+.featured-thumbnails {
+  width: 180px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.featured-thumbnails::-webkit-scrollbar { width: 3px; }
+.featured-thumbnails::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.thumbnail-tile {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.thumbnail-tile .lk-participant-tile {
+  border-radius: 12px !important;
+  height: 100% !important;
 }

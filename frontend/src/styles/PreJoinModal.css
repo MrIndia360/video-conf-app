@@ -1,0 +1,217 @@
+.prejoin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.prejoin-modal {
+  background: rgba(18, 18, 32, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 32px;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  animation: modalSlideUp 0.25s ease;
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -----------------------------------------------
+   Header
+----------------------------------------------- */
+.prejoin-header {
+  text-align: center;
+}
+
+.prejoin-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.prejoin-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.prejoin-room {
+  color: #a5b4fc;
+  font-weight: 500;
+}
+
+.prejoin-name {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* -----------------------------------------------
+   Camera preview
+----------------------------------------------- */
+.prejoin-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0a0a14;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.prejoin-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirror effect like Zoom */
+}
+
+.prejoin-no-camera {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.prejoin-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.prejoin-no-camera-text {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Device toggle buttons overlaid on the preview */
+.prejoin-preview-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.prejoin-device-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, background 0.2s;
+  backdrop-filter: blur(8px);
+}
+
+.prejoin-device-btn:hover { transform: scale(1.1); }
+
+.prejoin-device-btn--on {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.prejoin-device-btn--off {
+  background: rgba(239, 68, 68, 0.7);
+}
+
+/* -----------------------------------------------
+   Device status labels
+----------------------------------------------- */
+.prejoin-device-status {
+  display: flex;
+  gap: 10px;
+}
+
+.device-status-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s;
+}
+
+.device-status-item--on {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* -----------------------------------------------
+   Error
+----------------------------------------------- */
+.prejoin-error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #fca5a5;
+  text-align: center;
+}
+
+/* -----------------------------------------------
+   Join button
+----------------------------------------------- */
+.prejoin-join-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  width: 100%;
+}
+
+.prejoin-join-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.prejoin-join-btn:active {
+  transform: translateY(0);
+}
+
+.prejoin-hint {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}
