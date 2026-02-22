@@ -125,4 +125,22 @@ body {
   color: rgba(255, 255, 255, 0.35);
   font-size: 12px;
   margin-top: 20px;
+  line-height: 1.6;
+}
+
+.lobby-share-link {
+  color: #667eea;
+  cursor: pointer;
+  word-break: break-all;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lobby-share-link:hover {
+  color: #8fa4f3;
+}
+
+.lobby-copy-hint {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 11px;
 }

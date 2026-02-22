@@ -2,9 +2,18 @@ import React, { useState } from "react";
 import { useVideoConference } from "../context/VideoConferenceContext";
 import "../styles/LobbyPage.css";
 
+function getRoomFromURL() {
+  // Support /room/my-room-name or ?room=my-room-name
+  const pathMatch = window.location.pathname.match(/^\/room\/(.+)/);
+  if (pathMatch) return decodeURIComponent(pathMatch[1]);
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("room")) return params.get("room");
+  return "";
+}
+
 function LobbyPage() {
   const { joinRoom, isConnecting, error } = useVideoConference();
-  const [roomName, setRoomName] = useState("");
+  const [roomName, setRoomName] = useState(getRoomFromURL);
   const [participantName, setParticipantName] = useState("");
 
   function handleSubmit(e) {
@@ -65,9 +74,26 @@ function LobbyPage() {
           </button>
         </form>
 
-        <p className="lobby-hint">
-          Share the room name with others to invite them
-        </p>
+        {roomName.trim() ? (
+          <p className="lobby-hint">
+            Share this link to invite others:{" "}
+            <span
+              className="lobby-share-link"
+              onClick={() => {
+                const link = `${window.location.origin}/room/${encodeURIComponent(roomName.trim())}`;
+                navigator.clipboard.writeText(link);
+              }}
+              title="Click to copy"
+            >
+              {window.location.origin}/room/{encodeURIComponent(roomName.trim())}
+            </span>
+            <span className="lobby-copy-hint"> (click to copy)</span>
+          </p>
+        ) : (
+          <p className="lobby-hint">
+            Enter a room name to get a shareable link
+          </p>
+        )}
       </div>
     </div>
   );
