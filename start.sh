@@ -54,7 +54,7 @@ echo -e "${GREEN}✅ Backend running (PID: $BACKEND_PID)${NC}"
 # Step 4 — Start ngrok + get public URL
 # -----------------------------------------------
 echo -e "\n${YELLOW}[4/4] Starting ngrok tunnel...${NC}"
-ngrok http 4000 --log=stdout > /tmp/ngrok.log 2>&1 &
+/opt/homebrew/bin/ngrok http 4000 --log=stdout > /tmp/ngrok.log 2>&1 &
 NGROK_PID=$!
 sleep 3  # wait for ngrok to connect
 

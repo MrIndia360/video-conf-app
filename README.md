@@ -98,3 +98,13 @@ video-conf-app/
         ├── config.js                      # 👈 Change provider here
         └── App.jsx                        # Root router
 ```
+
+### 4. Running the App
+
+#### Using Provided Scripts
+
+- To launch both backend and frontend:
+
+```bash
+./launch_videoconf.sh
+```
