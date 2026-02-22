@@ -1,0 +1,28 @@
+.video-grid-container {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+}
+
+.video-grid {
+  width: 100%;
+  height: 100%;
+}
+
+/* Override LiveKit default tile styles */
+.lk-participant-tile {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 2px solid transparent !important;
+  transition: border-color 0.2s !important;
+}
+
+.lk-participant-tile[data-lk-speaking="true"] {
+  border-color: #667eea !important;
+}
+
+.lk-participant-name {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7)) !important;
+}
