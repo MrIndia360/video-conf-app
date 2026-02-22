@@ -9,7 +9,6 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  GridLayout,
   ParticipantTile,
   useTracks,
   VideoTrack,
@@ -17,15 +16,22 @@ import {
 import { Track } from "livekit-client";
 import "../styles/VideoGrid.css";
 
+// Returns CSS grid-template-columns value for N participants
+function getGridColumns(count) {
+  if (count <= 1) return "1fr";
+  if (count <= 2) return "1fr 1fr";
+  if (count <= 4) return "1fr 1fr";
+  if (count <= 6) return "1fr 1fr 1fr";
+  return "1fr 1fr 1fr 1fr";
+}
+
 function VideoGrid() {
   const cameraTracks = useTracks(
-    [{ source: Track.Source.Camera, withPlaceholder: true }],
-    { onlySubscribed: false }
+    [{ source: Track.Source.Camera, withPlaceholder: true }]
   );
 
   const screenShareTracks = useTracks(
-    [{ source: Track.Source.ScreenShare, withPlaceholder: false }],
-    { onlySubscribed: false }
+    [{ source: Track.Source.ScreenShare, withPlaceholder: false }]
   );
 
   const [activeShareIndex, setActiveShareIndex] = useState(0);
@@ -94,11 +100,23 @@ function VideoGrid() {
   // -----------------------------------------------
   // Default grid layout — no screen sharing
   // -----------------------------------------------
+  const columns = getGridColumns(cameraTracks.length);
+
   return (
     <div className="video-grid-container">
-      <GridLayout tracks={cameraTracks} className="video-grid">
-        <ParticipantTile />
-      </GridLayout>
+      <div
+        className="video-grid"
+        style={{ gridTemplateColumns: columns }}
+      >
+        {cameraTracks.map((track) => {
+          const key = `${track.participant.identity}-${track.source}`;
+          return (
+            <div key={key} className="video-tile">
+              <ParticipantTile trackRef={track} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

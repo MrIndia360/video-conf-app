@@ -8,6 +8,7 @@
 import React, { useState } from "react";
 import { useLocalParticipant } from "@livekit/components-react";
 import { useScreenShares } from "../hooks/useScreenShares";
+import { useVideoConference } from "../context/VideoConferenceContext";
 import ShareMenu from "./ShareMenu";
 import "../styles/Controls.css";
 
@@ -20,8 +21,18 @@ function Controls({
 }) {
   const { localParticipant } = useLocalParticipant();
   const { shares } = useScreenShares();
+  const { roomName } = useVideoConference();
   const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
   const [screenShareError, setScreenShareError] = useState(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  function copyMeetingLink() {
+    const link = `${window.location.origin}/room/${encodeURIComponent(roomName)}`;
+    navigator.clipboard.writeText(link).then(() => {
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    });
+  }
 
   const isMicEnabled = localParticipant?.isMicrophoneEnabled;
   const isCameraEnabled = localParticipant?.isCameraEnabled;
@@ -105,6 +116,16 @@ function Controls({
         >
           <span className="control-icon">💬</span>
           <span className="control-label">Chat</span>
+        </button>
+
+        {/* Copy Link */}
+        <button
+          className={`control-btn ${linkCopied ? "control-btn--copied" : ""}`}
+          onClick={copyMeetingLink}
+          title="Copy meeting link"
+        >
+          <span className="control-icon">{linkCopied ? "✅" : "🔗"}</span>
+          <span className="control-label">{linkCopied ? "Copied!" : "Copy Link"}</span>
         </button>
 
         {/* Leave */}
