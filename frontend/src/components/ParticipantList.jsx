@@ -6,7 +6,7 @@ import "../styles/ParticipantList.css";
 function ParticipantList({ onClose }) {
   const participants = useParticipants();
   const { localParticipant } = useLocalParticipant();
-  const { isHost } = useVideoConference();
+  const { isHost, hostIdentity, coHosts, promoteToCoHost, removeCoHost } = useVideoConference();
 
   return (
     <div className="participant-list">
@@ -24,7 +24,14 @@ function ParticipantList({ onClose }) {
           const isMicOn = participant.isMicrophoneEnabled;
           const isCamOn = participant.isCameraEnabled;
           const isSpeaking = participant.isSpeaking;
-          const isParticipantHost = isHost && isLocal;
+          // Anyone whose identity matches hostIdentity is the host
+          const isParticipantHost = participant.identity === hostIdentity;
+          const isCoHost = coHosts.includes(participant.identity);
+
+          // Host can promote any non-host, non-co-host participant (not themselves)
+          const canPromote = isHost && !isLocal && !isParticipantHost && !isCoHost;
+          // Host can remove an existing co-host
+          const canDemote = isHost && !isLocal && isCoHost;
 
           return (
             <div
@@ -43,7 +50,32 @@ function ParticipantList({ onClose }) {
                   {participant.identity}
                   {isLocal && <span className="badge badge--you">You</span>}
                   {isParticipantHost && <span className="badge badge--host">Host</span>}
+                  {!isParticipantHost && isCoHost && (
+                    <span className="badge badge--cohost">Co-host</span>
+                  )}
                 </span>
+
+                {/* Make Co-Host button — visible to host for non-co-host participants */}
+                {canPromote && (
+                  <button
+                    className="cohost-btn"
+                    onClick={() => promoteToCoHost(participant.identity)}
+                    title={`Make ${participant.identity} a co-host`}
+                  >
+                    Make Co-Host
+                  </button>
+                )}
+
+                {/* Remove Co-Host button — visible to host for existing co-hosts */}
+                {canDemote && (
+                  <button
+                    className="cohost-btn cohost-btn--remove"
+                    onClick={() => removeCoHost(participant.identity)}
+                    title={`Remove ${participant.identity} as co-host`}
+                  >
+                    Remove Co-Host
+                  </button>
+                )}
               </div>
 
               {/* Status icons */}

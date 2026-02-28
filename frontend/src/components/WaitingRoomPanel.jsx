@@ -1,27 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useVideoConference } from "../context/VideoConferenceContext";
 import "../styles/WaitingRoomPanel.css";
 
+// WaitingRoomPanel no longer polls — it reads waitingList directly from context.
+// The server pushes "waiting-update" SSE events to the host/co-hosts whenever
+// the waiting list changes, so this panel updates instantly.
+
 function WaitingRoomPanel() {
-  const { roomName } = useVideoConference();
-  const [waitingList, setWaitingList] = useState([]);
-
-  // Poll waiting list every 3 seconds
-  useEffect(() => {
-    fetchWaitingList();
-    const interval = setInterval(fetchWaitingList, 3000);
-    return () => clearInterval(interval);
-  }, [roomName]);
-
-  async function fetchWaitingList() {
-    try {
-      const res = await fetch(`/api/waiting-list?roomName=${encodeURIComponent(roomName)}`);
-      const data = await res.json();
-      setWaitingList(data.waiting || []);
-    } catch (err) {
-      console.error("Failed to fetch waiting list", err);
-    }
-  }
+  const { roomName, waitingList } = useVideoConference();
 
   async function admit(participantName) {
     await fetch("/api/admit", {
@@ -29,7 +15,8 @@ function WaitingRoomPanel() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ roomName, participantName }),
     });
-    setWaitingList((prev) => prev.filter((p) => p !== participantName));
+    // No local state update needed — server pushes a waiting-update event
+    // which updates context.waitingList, which re-renders this panel
   }
 
   async function reject(participantName) {
@@ -38,7 +25,6 @@ function WaitingRoomPanel() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ roomName, participantName }),
     });
-    setWaitingList((prev) => prev.filter((p) => p !== participantName));
   }
 
   async function admitAll() {
